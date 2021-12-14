@@ -1,51 +1,99 @@
-enum IDofDepartments {
-    ACCOUNTING = 0,
-    IT = 1,
-}
-
-const allDeps: Department[] = [];
-
 class Department {
+    // private readonly id: string;
+    // private name: string;
     protected employees: string[] = [];
 
-    constructor(public readonly id: number, public name: string) {}
-
-    describe(): void {
-        console.log(this);
+    constructor(private readonly id: string, public name: string) {
+        // this.id = id;
+        // this.name = n;
     }
 
-    addEmployees(newEmployees: string[]): void {
-        this.employees = newEmployees;
+    describe(this: Department) {
+        console.log(`Department (${this.id}): ${this.name}`);
     }
 
-    addToAllDeps() {
-        allDeps.push(this);
+    addEmployee(employee: string) {
+        // validation etc
+        // this.id = 'd2';
+        this.employees.push(employee);
     }
 
-    showAllEmployees() {
-        allDeps.forEach(dep => console.log(dep.employees))
-    }
-
-}
-
-class ITDep extends Department {
-    constructor(public admins: string[]) {
-        super(IDofDepartments.ACCOUNTING, 'IT');
+    printEmployeeInformation() {
+        console.log(this.employees.length);
+        console.log(this.employees);
     }
 }
 
-class AccountingDep extends Department {
-    constructor(public reports: string[]) {
-        super(IDofDepartments.IT, 'Accounting');
+class ITDepartment extends Department {
+    admins: string[];
+    constructor(id: string, admins: string[]) {
+        super(id, 'IT');
+        this.admins = admins;
     }
 }
 
-const accountingDep = new AccountingDep(['Raport 1', 'Raport 2']);
-accountingDep.addEmployees(['krzysiek', 'agata', 'piotrek']);
-accountingDep.addToAllDeps();
+class AccountingDepartment extends Department {
+    private lastReport: string;
 
-const itDep = new ITDep(['Miki', 'Artur']);
-itDep.addEmployees(['franek', 'paulina', 'kristof']);
-itDep.addToAllDeps();
+    constructor(id: string, private reports: string[]) {
+        super(id, 'Accounting');
+        this.lastReport = reports[0];
+    }
 
-itDep.showAllEmployees();
+    get mostRecentReport() {
+        if (this.lastReport) {
+            return this.lastReport;
+        }
+        throw new Error('Brak raportu');
+    }
+
+    set mostRecentReport(text: string) {
+        this.addReport(text);
+    }
+
+    addEmployee(name: string) {
+        if (name === 'Max') {
+            return;
+        }
+        this.employees.push(name);
+    }
+
+    addReport(text: string) {
+        this.reports.push(text);
+        this.lastReport = text;
+    }
+
+    printReports() {
+        console.log(this.reports);
+    }
+}
+
+const it = new ITDepartment('d1', ['Max']);
+
+it.addEmployee('Max');
+it.addEmployee('Manu');
+
+// it.employees[2] = 'Anna';
+
+it.describe();
+it.name = 'NEW NAME';
+it.printEmployeeInformation();
+
+const accounting = new AccountingDepartment('d2', []);
+
+accounting.addReport('pierwszy raport');
+accounting.addReport('Something went wrong...');
+accounting.mostRecentReport = "SETTER RAPORT";
+
+console.log(accounting.mostRecentReport);
+
+
+accounting.addEmployee('Max');
+accounting.addEmployee('Manu');
+
+accounting.printReports();
+accounting.printEmployeeInformation();
+
+// const accountingCopy = { name: 'DUMMY', describe: accounting.describe };
+
+// accountingCopy.describe();
