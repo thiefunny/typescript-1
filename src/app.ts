@@ -7,7 +7,7 @@ const allDeps: Department[] = [];
 
 class Department {
     protected employees: string[] = [];
-
+    static waznyczlowiek: string = 'miki';
     constructor(public readonly id: number, public name: string) {}
 
     describe(): void {
@@ -24,13 +24,11 @@ class Department {
 
     static showAllEmployees() {
         const alldeps: string[][] = [];
+        // console.log(allDeps)
+        // console.log(allDeps.map(dep => alldeps.push(dep.employees)))
 
-        allDeps.map((dep) => {
-            dep.employees.forEach(el => alldeps.push(el)
-            // alldeps.push(dep.employees);
-
-        });
-        console.log(alldeps);
+        allDeps.map((dep) => alldeps.push(dep.employees));
+        console.log(allDeps);
     }
 }
 
@@ -55,3 +53,4 @@ itDep.addEmployees(['franek', 'paulina', 'kristof']);
 itDep.addToAllDeps();
 
 Department.showAllEmployees();
+console.log(Department.waznyczlowiek)
