@@ -5,14 +5,12 @@ enum IDofDepartments {
 
 const allDeps: Department[] = [];
 
-class Department {
+abstract class Department {
     protected employees: string[] = [];
     static waznyczlowiek: string = 'miki';
     constructor(public readonly id: number, public name: string) {}
 
-    describe(): void {
-        console.log(this);
-    }
+    abstract describe(): void
 
     addEmployees(newEmployees: string[]): void {
         this.employees = newEmployees;
@@ -36,12 +34,14 @@ class ITDep extends Department {
     constructor(public admins: string[]) {
         super(IDofDepartments.ACCOUNTING, 'IT');
     }
+    describe() {}
 }
 
 class AccountingDep extends Department {
     constructor(public reports: string[]) {
         super(IDofDepartments.IT, 'Accounting');
     }
+    describe() {}
 }
 
 const accountingDep = new AccountingDep(['Raport 1', 'Raport 2']);
