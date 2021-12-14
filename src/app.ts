@@ -22,10 +22,16 @@ class Department {
         allDeps.push(this);
     }
 
-    showAllEmployees() {
-        allDeps.forEach(dep => console.log(dep.employees))
-    }
+    static showAllEmployees() {
+        const alldeps: string[][] = [];
 
+        allDeps.map((dep) => {
+            dep.employees.forEach(el => alldeps.push(el)
+            // alldeps.push(dep.employees);
+
+        });
+        console.log(alldeps);
+    }
 }
 
 class ITDep extends Department {
@@ -48,4 +54,4 @@ const itDep = new ITDep(['Miki', 'Artur']);
 itDep.addEmployees(['franek', 'paulina', 'kristof']);
 itDep.addToAllDeps();
 
-itDep.showAllEmployees();
+Department.showAllEmployees();
